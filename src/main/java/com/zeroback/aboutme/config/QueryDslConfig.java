@@ -1,4 +1,4 @@
-package com.zeroback.aboutme.util;
+package com.zeroback.aboutme.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

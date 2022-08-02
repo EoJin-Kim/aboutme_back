@@ -1,8 +1,15 @@
 package com.zeroback.aboutme.controller;
 
 
-import com.zeroback.aboutme.dto.SignupDto;
+import com.zeroback.aboutme.dto.request.LoginDto;
+import com.zeroback.aboutme.dto.request.MemberDetailRequestDto;
+import com.zeroback.aboutme.dto.request.SignupDto;
+import com.zeroback.aboutme.dto.response.LoginResultDto;
+import com.zeroback.aboutme.dto.response.MemberDetailResponseDto;
+import com.zeroback.aboutme.dto.response.ResponseDto;
+import com.zeroback.aboutme.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
 
+    private final MemberService memberService;
+
     @GetMapping("/test")
     public String memberTest(){
         return "member";
@@ -18,6 +27,49 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupDto signupDto){
-        return null;
+        String result = memberService.signup(signupDto);
+        if (result.equals("success")) {
+            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
+        } else {
+            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+        try {
+            LoginResultDto loginResultDto = memberService.login(loginDto);
+            ResponseDto<LoginResultDto> response = new ResponseDto<LoginResultDto>("success", loginResultDto);
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> getMemberInfo(@PathVariable("memberId") Long memberId) {
+        try {
+            MemberDetailResponseDto memberInfo = memberService.getMemberInfo(memberId);
+            ResponseDto<MemberDetailResponseDto> response = new ResponseDto<MemberDetailResponseDto>("success", memberInfo);
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+    @PostMapping("{memberId}/update")
+    public ResponseEntity<?> updateMemberInfo(@PathVariable("memberId") Long memberId,@RequestBody MemberDetailRequestDto memberDetailInfo) {
+        String result = memberService.updateMember(memberId, memberDetailInfo);
+        if (result.equals("success")) {
+            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
+        } else {
+            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }
