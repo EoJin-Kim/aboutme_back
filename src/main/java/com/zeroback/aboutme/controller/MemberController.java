@@ -61,7 +61,7 @@ public class MemberController {
         }
 
     }
-    @PostMapping("{memberId}/update")
+    @PatchMapping("{memberId}")
     public ResponseEntity<?> updateMemberInfo(@PathVariable("memberId") Long memberId,@RequestBody MemberDetailRequestDto memberDetailInfo) {
         String result = memberService.updateMember(memberId, memberDetailInfo);
         if (result.equals("success")) {
