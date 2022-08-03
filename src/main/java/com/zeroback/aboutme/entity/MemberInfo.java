@@ -1,8 +1,13 @@
 package com.zeroback.aboutme.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class MemberInfo {
 
     @Id
@@ -18,4 +23,16 @@ public class MemberInfo {
     private String content;
 
 
+    public static MemberInfo create(Member member, String title, String content) {
+        MemberInfo memberInfo = new MemberInfo();
+        memberInfo.setTitle(title);
+        memberInfo.setContent(content);
+        memberInfo.setMember(member);
+        return memberInfo;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getMemberInfo().add(this);
+    }
 }

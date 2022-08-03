@@ -5,7 +5,9 @@ import com.zeroback.aboutme.dto.request.MemberDetailRequestDto;
 import com.zeroback.aboutme.dto.request.SignupDto;
 import com.zeroback.aboutme.dto.response.LoginResultDto;
 import com.zeroback.aboutme.dto.response.MemberDetailResponseDto;
+import com.zeroback.aboutme.dto.response.MemberInfoDto;
 import com.zeroback.aboutme.entity.Member;
+import com.zeroback.aboutme.entity.MemberInfo;
 import com.zeroback.aboutme.entity.MemberTag;
 import com.zeroback.aboutme.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,21 +66,27 @@ public class MemberService {
 
     public MemberDetailResponseDto getMemberInfo(Long memberId) throws Exception{
         Member findMember = memberRepository.findById(memberId).get();
-        MemberDetailResponseDto memberInfo = new MemberDetailResponseDto();
-        memberInfo.setName(findMember.getName());
+        MemberDetailResponseDto memberTotalInfo = new MemberDetailResponseDto();
+        memberTotalInfo.setName(findMember.getName());
         String job =  findMember.getJob()!=null ? findMember.getJob() : "";
-        memberInfo.setJob(job);
+        memberTotalInfo.setJob(job);
         String content =  findMember.getContent()!=null ? findMember.getContent() : "";
-        memberInfo.setContent(content);
+        memberTotalInfo.setContent(content);
         String phone = findMember.getPhone() != null ? findMember.getPhone() : "";
-        memberInfo.setPhone(phone);
-        memberInfo.setEmail(findMember.getEmail());
+        memberTotalInfo.setPhone(phone);
+        memberTotalInfo.setEmail(findMember.getEmail());
         ArrayList<String> tags = new ArrayList<>();
 
         for (MemberTag memberTag : findMember.getMemberTag()) {
             tags.add(memberTag.getTag());
         }
-        memberInfo.setTag(tags);
-        return memberInfo;
+        memberTotalInfo.setTag(tags);
+
+        ArrayList<MemberInfoDto> memberInfoList = new ArrayList<>();
+        for (MemberInfo memberInfo : findMember.getMemberInfo()) {
+            memberInfoList.add(new MemberInfoDto(memberInfo.getId(),memberInfo.getTitle(),memberInfo.getContent()));
+        }
+        memberTotalInfo.setMemberInfo(memberInfoList);
+        return memberTotalInfo;
     }
 }

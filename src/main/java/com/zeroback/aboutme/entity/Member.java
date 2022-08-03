@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -47,6 +48,11 @@ public class Member {
         member.setName(name);
         member.setEmail(email);
         member.setPassword(password);
+        ArrayList<String> titleList = new ArrayList<>(Arrays.asList("장점", "단점","지켜주세요","MBTI","좋아하는 음식","싫어하는 음식","성격","취미"));
+        for (String title : titleList) {
+            MemberInfo memberInfo = MemberInfo.create(member,title,"");
+        }
+
         return member;
     }
 }

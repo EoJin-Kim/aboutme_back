@@ -14,5 +14,6 @@ public class MemberDetailResponseDto {
     private String phone;
     private String email;
     private ArrayList<String> tag;
+    private ArrayList<MemberInfoDto> memberInfo;
 
 }
