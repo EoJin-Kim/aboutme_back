@@ -1,8 +1,6 @@
 package com.zeroback.aboutme.util;
 
-import com.zeroback.aboutme.entity.Member;
-import com.zeroback.aboutme.entity.MemberInfo;
-import com.zeroback.aboutme.entity.MemberTag;
+import com.zeroback.aboutme.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +52,19 @@ public class InitDB {
             List<MemberInfo> memberInfoList2 = member2.getMemberInfo();
             List<String> infos2 = Arrays.asList("요리를 잘한다", "일을 뒤로 미룬다","잘때는 건들지 말기!","ABCD","고기","해산물","부드러움","컴퓨터");
             createMemberInfo(memberInfoList2,infos2);
+
+            Team team1 = Team.create("cooking");
+            Team team2 = Team.create("running");
+            Team team3 = Team.create("developer");
+
+            MemberTeam.create(member,team1);
+            MemberTeam.create(member2,team1);
+            MemberTeam.create(member,team2);
+            MemberTeam.create(member,team3);
+
+            em.persist(team1);
+            em.persist(team2);
+            em.persist(team3);
 
         }
 

@@ -42,6 +42,7 @@ public class TeamService {
         List<MemberTeam> memberTeamList = findMember.getMemberTeam();
         for (MemberTeam memberTeam : memberTeamList) {
             TeamInfoDto teamInfoDto = new TeamInfoDto();
+            teamInfoDto.setGroupId(memberTeam.getTeam().getId());
             teamInfoDto.setTeamName(memberTeam.getTeam().getName());
             teamInfoList.add(teamInfoDto);
         }
