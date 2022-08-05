@@ -27,6 +27,7 @@ public class TeamController {
         return "team";
     }
 
+    // 그룹 사용자 조회
     @GetMapping("/member/{teamName}")
     public ResponseEntity<?> fetchTeams(@PathVariable("teamName") String teamName) {
         try {
@@ -39,6 +40,8 @@ public class TeamController {
         }
 
     }
+
+    // 그룹 생성
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody CreateTeamDto createTeamDto){
         try {
@@ -52,6 +55,7 @@ public class TeamController {
         }
     }
 
+    // 그룹 참가
     @PostMapping("/join")
     public ResponseEntity<?> joinTeam(@RequestBody JoinTeamDto joinTeamDto) {
         try {

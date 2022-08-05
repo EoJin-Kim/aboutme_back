@@ -6,6 +6,7 @@ import com.zeroback.aboutme.dto.request.SignupDto;
 import com.zeroback.aboutme.dto.response.LoginResultDto;
 import com.zeroback.aboutme.dto.response.MemberDetailResponseDto;
 import com.zeroback.aboutme.dto.response.MemberInfoDto;
+import com.zeroback.aboutme.dto.response.UpdateMemberInfoDto;
 import com.zeroback.aboutme.entity.Member;
 import com.zeroback.aboutme.entity.MemberInfo;
 import com.zeroback.aboutme.entity.MemberTag;
@@ -88,5 +89,11 @@ public class MemberService {
         }
         memberTotalInfo.setMemberInfo(memberInfoList);
         return memberTotalInfo;
+    }
+
+    public String updateMemberInfo(Long memberInfoId, UpdateMemberInfoDto updateMemberInfoDto) {
+        MemberInfo memberInfo =memberRepository.findMemberInfoById(memberInfoId);
+        memberInfo.setContent(updateMemberInfoDto.getMemberInfo());
+        return "success";
     }
 }

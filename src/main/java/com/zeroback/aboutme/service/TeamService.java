@@ -44,6 +44,7 @@ public class TeamService {
             TeamInfoDto teamInfoDto = new TeamInfoDto();
             teamInfoDto.setGroupId(memberTeam.getTeam().getId());
             teamInfoDto.setTeamName(memberTeam.getTeam().getName());
+            teamInfoDto.setCount(memberTeam.getTeam().getMemberTeam().size());
             teamInfoList.add(teamInfoDto);
         }
         return teamInfoList;
