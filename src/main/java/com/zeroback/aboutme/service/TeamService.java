@@ -5,6 +5,7 @@ import com.zeroback.aboutme.dto.request.JoinTeamDto;
 import com.zeroback.aboutme.dto.response.MemberInfoDto;
 import com.zeroback.aboutme.dto.response.MemberSummaryDto;
 import com.zeroback.aboutme.dto.response.TeamInfoDto;
+import com.zeroback.aboutme.dto.response.TeamTotalInfo;
 import com.zeroback.aboutme.entity.Member;
 import com.zeroback.aboutme.entity.MemberTeam;
 import com.zeroback.aboutme.entity.Team;
@@ -23,16 +24,27 @@ import java.util.List;
 public class TeamService {
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
-    public String createTeam(CreateTeamDto createTeamDto) throws Exception{
+    public List<TeamInfoDto> createTeam(CreateTeamDto createTeamDto) throws Exception{
 
         Long memberId = createTeamDto.getMemberId();
         Member findMember = memberRepository.findById(memberId).orElseThrow();
 
-        Team createTeam = Team.create(createTeamDto.getTeamName());
+        Team createTeam = Team.create(createTeamDto);
         MemberTeam createMemberTeam = MemberTeam.create(findMember, createTeam);
 
         teamRepository.save(createTeam);
-        return "ok";
+
+        ArrayList<TeamInfoDto> teamInfoList = new ArrayList<>();
+        List<MemberTeam> memberTeamList = findMember.getMemberTeam();
+        for (MemberTeam memberTeam : memberTeamList) {
+            TeamInfoDto teamInfoDto = new TeamInfoDto();
+            teamInfoDto.setGroupId(memberTeam.getTeam().getId());
+            teamInfoDto.setTeamName(memberTeam.getTeam().getName());
+            teamInfoDto.setSummary(memberTeam.getTeam().getSummary());
+            teamInfoDto.setCount(memberTeam.getTeam().getMemberTeam().size());
+            teamInfoList.add(teamInfoDto);
+        }
+        return teamInfoList;
 
     }
 
@@ -44,6 +56,7 @@ public class TeamService {
             TeamInfoDto teamInfoDto = new TeamInfoDto();
             teamInfoDto.setGroupId(memberTeam.getTeam().getId());
             teamInfoDto.setTeamName(memberTeam.getTeam().getName());
+            teamInfoDto.setSummary(memberTeam.getTeam().getSummary());
             teamInfoDto.setCount(memberTeam.getTeam().getMemberTeam().size());
             teamInfoList.add(teamInfoDto);
         }
@@ -72,5 +85,27 @@ public class TeamService {
 
         }
         return memberSummaryList;
+    }
+
+    public TeamTotalInfo findTeam(Long teamId) throws Exception{
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        TeamTotalInfo teamTotalInfo = new TeamTotalInfo();
+
+        teamTotalInfo.setGroupName(team.getName());
+        teamTotalInfo.setGroupSummary(team.getSummary());
+
+        List<MemberTeam> memberTeamList = team.getMemberTeam();
+        teamTotalInfo.setCount(memberTeamList.size());
+        ArrayList<MemberSummaryDto> memberSummaryList = new ArrayList<>();
+
+        for (MemberTeam memberTeam : memberTeamList) {
+            Member member = memberTeam.getMember();
+            MemberSummaryDto memberSummaryDto = new MemberSummaryDto(member.getId(), member.getName(), member.getJob());
+            memberSummaryList.add(memberSummaryDto);
+        }
+
+        teamTotalInfo.setMemberSummary(memberSummaryList);
+        return teamTotalInfo;
     }
 }

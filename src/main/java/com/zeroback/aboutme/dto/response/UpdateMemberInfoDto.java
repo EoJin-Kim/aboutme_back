@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateMemberInfoDto {
-    String memberInfo;
+    String memberInfoContent;
 }

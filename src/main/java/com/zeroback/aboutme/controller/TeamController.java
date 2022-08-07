@@ -3,10 +3,7 @@ package com.zeroback.aboutme.controller;
 
 import com.zeroback.aboutme.dto.request.CreateTeamDto;
 import com.zeroback.aboutme.dto.request.JoinTeamDto;
-import com.zeroback.aboutme.dto.response.MemberInfoDto;
-import com.zeroback.aboutme.dto.response.MemberSummaryDto;
-import com.zeroback.aboutme.dto.response.TeamInfoDto;
-import com.zeroback.aboutme.dto.response.ResponseDto;
+import com.zeroback.aboutme.dto.response.*;
 import com.zeroback.aboutme.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,13 +37,24 @@ public class TeamController {
         }
 
     }
+    @GetMapping("/{groupId}")
+    public ResponseEntity<?> fetchTeam(@PathVariable("groupId") Long groupId){
+        try {
+            TeamTotalInfo teamTotalInfo = teamService.findTeam(groupId);
+            ResponseDto<TeamTotalInfo> response = new ResponseDto<>("success",teamTotalInfo);
+            return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
+        }catch ( Exception e){
+            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     // 그룹 생성
     @PostMapping
     public ResponseEntity<?> createTeam(@RequestBody CreateTeamDto createTeamDto){
         try {
-            String result = teamService.createTeam(createTeamDto);
-            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            List<TeamInfoDto> result = teamService.createTeam(createTeamDto);
+            ResponseDto<List> response = new ResponseDto<>("success", result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 
         } catch (Exception e) {

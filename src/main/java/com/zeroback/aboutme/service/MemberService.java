@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -91,9 +92,16 @@ public class MemberService {
         return memberTotalInfo;
     }
 
-    public String updateMemberInfo(Long memberInfoId, UpdateMemberInfoDto updateMemberInfoDto) {
+    public List<MemberInfoDto> updateMemberInfo(Long memberInfoId, UpdateMemberInfoDto updateMemberInfoDto) {
         MemberInfo memberInfo =memberRepository.findMemberInfoById(memberInfoId);
-        memberInfo.setContent(updateMemberInfoDto.getMemberInfo());
-        return "success";
+        memberInfo.setContent(updateMemberInfoDto.getMemberInfoContent());
+
+        List<MemberInfo> memberInfoList = memberInfo.getMember().getMemberInfo();
+        ArrayList<MemberInfoDto> memberInfoResult = new ArrayList<>();
+        for (MemberInfo info : memberInfoList) {
+            MemberInfoDto memberInfoDto = new MemberInfoDto(info.getId(),info.getTitle(),info.getContent());
+            memberInfoResult.add(memberInfoDto);
+        }
+        return memberInfoResult;
     }
 }

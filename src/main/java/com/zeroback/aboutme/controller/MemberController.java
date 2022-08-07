@@ -90,11 +90,11 @@ public class MemberController {
     // 사용자 상세 정보 수정
     @PatchMapping("/memberinfo/{memberInfoId}")
     public ResponseEntity<?> updateMemberInfo(@PathVariable("memberInfoId") Long memberInfoId,@RequestBody UpdateMemberInfoDto memberInfo){
-        String result = memberService.updateMemberInfo(memberInfoId, memberInfo);
-        if (result.equals("success")) {
-            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+        try {
+            List<MemberInfoDto> result = memberService.updateMemberInfo(memberInfoId, memberInfo);
+            ResponseDto<List> response = new ResponseDto<>("success", result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
-        } else {
+        }catch (Exception e){
             ResponseDto<String> response = new ResponseDto<>("false", "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }

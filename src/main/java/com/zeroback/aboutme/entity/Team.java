@@ -1,5 +1,6 @@
 package com.zeroback.aboutme.entity;
 
+import com.zeroback.aboutme.dto.request.CreateTeamDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,12 +20,15 @@ public class Team {
 
 
     private String name;
+    private String summary;
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<MemberTeam> memberTeam = new ArrayList<MemberTeam>();
 
-    public static Team create(String teamName) {
+    public static Team create(CreateTeamDto createTeamDto) {
         Team team = new Team();
-        team.setName(teamName);
+        team.setName(createTeamDto.getTeamName());
+        team.setSummary(createTeamDto.getSummary());
 
         return team;
     }

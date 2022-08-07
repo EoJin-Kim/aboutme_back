@@ -11,5 +11,6 @@ public class TeamInfoDto {
     private Long groupId;
     @JsonProperty("team_name")
     private String teamName;
+    private String summary;
     private Integer count;
 }
