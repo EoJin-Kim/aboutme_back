@@ -67,8 +67,8 @@ public class TeamController {
     @PostMapping("/join")
     public ResponseEntity<?> joinTeam(@RequestBody JoinTeamDto joinTeamDto) {
         try {
-            String result = teamService.joinTeam(joinTeamDto);
-            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            List<TeamInfoDto> result = teamService.joinTeam(joinTeamDto);
+            ResponseDto<List> response = new ResponseDto<>("success", result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 
         } catch (Exception e) {

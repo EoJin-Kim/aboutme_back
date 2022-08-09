@@ -63,14 +63,26 @@ public class TeamService {
         return teamInfoList;
     }
 
-    public String joinTeam(JoinTeamDto joinTeamDto) throws Exception{
+    public List<TeamInfoDto> joinTeam(JoinTeamDto joinTeamDto) throws Exception{
         Long memberId = joinTeamDto.getMemberId();
         Member findMember = memberRepository.findById(memberId).orElseThrow();
 
         Team team = teamRepository.findTeamByName(joinTeamDto.getTeamName()).orElseThrow();
-        MemberTeam memberTeam = MemberTeam.create(findMember, team);
-        teamRepository.saveMemberTeam(memberTeam);
-        return "ok";
+        MemberTeam createMemberTeam = MemberTeam.create(findMember, team);
+        teamRepository.saveMemberTeam(createMemberTeam);
+
+
+        ArrayList<TeamInfoDto> teamInfoList = new ArrayList<>();
+        List<MemberTeam> memberTeamList = findMember.getMemberTeam();
+        for (MemberTeam memberTeam : memberTeamList) {
+            TeamInfoDto teamInfoDto = new TeamInfoDto();
+            teamInfoDto.setGroupId(memberTeam.getTeam().getId());
+            teamInfoDto.setTeamName(memberTeam.getTeam().getName());
+            teamInfoDto.setSummary(memberTeam.getTeam().getSummary());
+            teamInfoDto.setCount(memberTeam.getTeam().getMemberTeam().size());
+            teamInfoList.add(teamInfoDto);
+        }
+        return teamInfoList;
     }
 
     public List<MemberSummaryDto> fetchMember(String teamName)throws Exception {

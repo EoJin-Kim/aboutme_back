@@ -54,7 +54,7 @@ public class InitDB {
             MemberTeam.create(member7,team1);
 
             MemberTeam.create(member,team2);
-            MemberTeam.create(member,team3);
+//            MemberTeam.create(member,team3);
 
             em.persist(team1);
             em.persist(team2);
