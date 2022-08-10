@@ -27,6 +27,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    private String image;
     private String name;
     private String job;
     private String content;

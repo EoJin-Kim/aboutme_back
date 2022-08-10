@@ -55,6 +55,8 @@ public class MemberService {
 
             Member findMember = memberRepository.findById(memberId).get();
             memberRepository.deleteMemberTag(memberId);
+            String image = findMember.getImage()!=null ? findMember.getImage() : "";
+            findMember.setImage(image);
             findMember.setName(memberDetailInfo.getName());
             findMember.setJob(memberDetailInfo.getJob());
             findMember.setContent(memberDetailInfo.getContent());
@@ -66,6 +68,7 @@ public class MemberService {
 
             if(memberDetailInfo.getMemberImage()!=null && !memberDetailInfo.getMemberImage().isEmpty()){
                 String filename = memberDetailInfo.getMemberImage().getOriginalFilename();
+                findMember.setImage(filename);
 
                 String fullPath = uploadPath + filename;
                 System.out.println("fullPath = " + fullPath);
@@ -83,6 +86,8 @@ public class MemberService {
     public MemberDetailResponseDto getMemberInfo(Long memberId) throws Exception{
         Member findMember = memberRepository.findById(memberId).get();
         MemberDetailResponseDto memberTotalInfo = new MemberDetailResponseDto();
+        String image = findMember.getImage()!=null ? findMember.getImage() : "";
+        memberTotalInfo.setImage(image);
         memberTotalInfo.setName(findMember.getName());
         String job =  findMember.getJob()!=null ? findMember.getJob() : "";
         memberTotalInfo.setJob(job);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class MemberDetailResponseDto {
+    private String image;
     private String name;
     private String job;
     private String content;
