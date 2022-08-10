@@ -12,9 +12,11 @@ import com.zeroback.aboutme.entity.MemberInfo;
 import com.zeroback.aboutme.entity.MemberTag;
 import com.zeroback.aboutme.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,9 @@ import java.util.Optional;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
     public String signup(SignupDto signupDto) {
         try {
             Member createMember = Member.createMember(signupDto.getName(), signupDto.getEmail(), signupDto.getPassword());
@@ -47,6 +52,7 @@ public class MemberService {
 
     public String updateMember(Long memberId, MemberDetailRequestDto memberDetailInfo) {
         try {
+
             Member findMember = memberRepository.findById(memberId).get();
             memberRepository.deleteMemberTag(memberId);
             findMember.setName(memberDetailInfo.getName());
@@ -56,6 +62,14 @@ public class MemberService {
 
             for (String tagStr : memberDetailInfo.getTag()) {
                 MemberTag.create(findMember, tagStr);
+            }
+
+            if(memberDetailInfo.getMemberImage()!=null && !memberDetailInfo.getMemberImage().isEmpty()){
+                String filename = memberDetailInfo.getMemberImage().getOriginalFilename();
+
+                String fullPath = uploadPath + filename;
+                System.out.println("fullPath = " + fullPath);
+                memberDetailInfo.getMemberImage().transferTo(new File(fullPath));
             }
             return "success";
         } catch (Exception e) {

@@ -18,3 +18,9 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+
+
+  servlet:
+    multipart:
+      location: C:/programming/spring/aboutme_back/src/main/resources/static/
+

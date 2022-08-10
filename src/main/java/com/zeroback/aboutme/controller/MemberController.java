@@ -67,8 +67,9 @@ public class MemberController {
 
     }
     // 사용자 정보 수정
+//    @PatchMapping("/{memberId}")
     @PatchMapping("/{memberId}")
-    public ResponseEntity<?> updateMember(@PathVariable("memberId") Long memberId,@RequestBody MemberDetailRequestDto memberDetailInfo) {
+    public ResponseEntity<?> updateMember(@PathVariable("memberId") Long memberId, MemberDetailRequestDto memberDetailInfo) {
         String result = memberService.updateMember(memberId, memberDetailInfo);
         if (result.equals("success")) {
             ResponseDto<String> response = new ResponseDto<>("success", "ok");
