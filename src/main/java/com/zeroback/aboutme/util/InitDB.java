@@ -62,10 +62,13 @@ public class InitDB {
 
         }
 
-        private Member createMember(String 김어진, String email, String 안녕하세요, String 개발자, String phone, String 백엔드, String 프론트, String 안드로이드) {
-            Member member = Member.createMember(김어진, email, "test");
-            member.setContent(안녕하세요);
-            member.setJob(개발자);
+        private Member createMember(String name, String email, String content, String job, String phone, String 백엔드, String 프론트, String 안드로이드) {
+            Member member = Member.createMember(name, email, "test");
+            if(!name.equals("김어진")){
+                member.setImage("a.jpg");
+            }
+            member.setContent(content);
+            member.setJob(job);
             member.setPhone(phone);
             em.persist(member);
             MemberTag.create(member, 백엔드);

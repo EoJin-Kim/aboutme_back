@@ -22,5 +22,17 @@ spring:
 
   servlet:
     multipart:
-      location: C:/programming/spring/aboutme_back/src/main/resources/static/
+      location: C:/programming/spring/aboutme_back/src/main/resources/image/
 
+#  web:
+#    resources:
+#      static-locations[0]: file:src/main/resources/static/
+#      static-locations[1]: classpath:/static/
+
+
+  devtools:
+    livereload:
+      enabled: true
+
+  freemarker:
+    cache: false
