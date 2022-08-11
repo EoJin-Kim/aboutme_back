@@ -22,7 +22,8 @@ spring:
 
   servlet:
     multipart:
-      location: C:/programming/spring/aboutme_back/src/main/resources/image/
+      location: C:/recentprograming/Spring/aboutme/src/main/resources/image/
+  #      location: C:/programming/spring/aboutme_back/src/main/resources/image/
 
 #  web:
 #    resources:
@@ -36,3 +37,7 @@ spring:
 
   freemarker:
     cache: false
+
+custom:
+  resource_path: file:///C:/recentprograming/Spring/aboutme/src/main/resources/image/
+#  resource_path: file:///C:/programming/spring/aboutme_back/src/main/resources/image/
