@@ -55,7 +55,7 @@ public class MemberService {
 
             Member findMember = memberRepository.findById(memberId).get();
             memberRepository.deleteMemberTag(memberId);
-            String image = memberDetailInfo.getMemberImage().isEmpty() ? "" : memberDetailInfo.getMemberImage().getOriginalFilename();
+            String image = memberDetailInfo.getMemberImage()==null ? "" : memberDetailInfo.getMemberImage().getOriginalFilename();
             findMember.setImage(image);
             findMember.setName(memberDetailInfo.getName());
             findMember.setJob(memberDetailInfo.getJob());
