@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ResponseDto<T> {
-    private String status;
+    private ResponseStatus status;
     private T response;
 }

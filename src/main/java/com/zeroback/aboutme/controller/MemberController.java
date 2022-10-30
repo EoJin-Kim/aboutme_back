@@ -5,6 +5,7 @@ import com.zeroback.aboutme.dto.request.LoginDto;
 import com.zeroback.aboutme.dto.request.MemberDetailRequestDto;
 import com.zeroback.aboutme.dto.request.SignupDto;
 import com.zeroback.aboutme.dto.response.*;
+import com.zeroback.aboutme.dto.response.ResponseStatus;
 import com.zeroback.aboutme.service.MemberService;
 import com.zeroback.aboutme.service.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,10 @@ public class MemberController {
     public ResponseEntity<?> signup(@RequestBody SignupDto signupDto){
         String result = memberService.signup(signupDto);
         if (result.equals("success")) {
-            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.SUCCESS, "ok");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         } else {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -45,10 +46,10 @@ public class MemberController {
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
         try {
             LoginResultDto loginResultDto = memberService.login(loginDto);
-            ResponseDto<LoginResultDto> response = new ResponseDto<LoginResultDto>("success", loginResultDto);
+            ResponseDto<LoginResultDto> response = new ResponseDto<LoginResultDto>(ResponseStatus.SUCCESS, loginResultDto);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -58,10 +59,10 @@ public class MemberController {
     public ResponseEntity<?> getMemberInfo(@PathVariable("memberId") Long memberId) {
         try {
             MemberDetailResponseDto memberInfo = memberService.getMemberInfo(memberId);
-            ResponseDto<MemberDetailResponseDto> response = new ResponseDto<MemberDetailResponseDto>("success", memberInfo);
+            ResponseDto<MemberDetailResponseDto> response = new ResponseDto<MemberDetailResponseDto>(ResponseStatus.SUCCESS, memberInfo);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
 
@@ -72,10 +73,10 @@ public class MemberController {
     public ResponseEntity<?> updateMember(@PathVariable("memberId") Long memberId, MemberDetailRequestDto memberDetailInfo) {
         String result = memberService.updateMember(memberId, memberDetailInfo);
         if (result.equals("success")) {
-            ResponseDto<String> response = new ResponseDto<>("success", "ok");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.SUCCESS, "ok");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         } else {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -84,7 +85,7 @@ public class MemberController {
     @GetMapping("/team/{memberId}")
     public ResponseEntity<?> fetchTeams(@PathVariable("memberId") Long memberId) {
         List<TeamInfoDto> teamList = teamService.fetchTeams(memberId);
-        ResponseDto<List> response = new ResponseDto<>("success", teamList);
+        ResponseDto<List> response = new ResponseDto<>(ResponseStatus.SUCCESS, teamList);
         return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
     }
 
@@ -93,10 +94,10 @@ public class MemberController {
     public ResponseEntity<?> updateMemberInfo(@PathVariable("memberInfoId") Long memberInfoId,@RequestBody UpdateMemberInfoDto memberInfo){
         try {
             List<MemberInfoDto> result = memberService.updateMemberInfo(memberInfoId, memberInfo);
-            ResponseDto<List> response = new ResponseDto<>("success", result);
+            ResponseDto<List> response = new ResponseDto<>(ResponseStatus.SUCCESS, result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         }catch (Exception e){
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }

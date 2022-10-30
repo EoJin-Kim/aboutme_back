@@ -4,6 +4,7 @@ package com.zeroback.aboutme.controller;
 import com.zeroback.aboutme.dto.request.CreateTeamDto;
 import com.zeroback.aboutme.dto.request.JoinTeamDto;
 import com.zeroback.aboutme.dto.response.*;
+import com.zeroback.aboutme.dto.response.ResponseStatus;
 import com.zeroback.aboutme.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,10 +30,10 @@ public class TeamController {
     public ResponseEntity<?> fetchTeams(@PathVariable("teamName") String teamName) {
         try {
             List<MemberSummaryDto> teamList = teamService.fetchMember(teamName);
-            ResponseDto<List> response = new ResponseDto<>("success", teamList);
+            ResponseDto<List> response = new ResponseDto<>(ResponseStatus.SUCCESS, teamList);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
         } catch (Exception e) {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
 
@@ -41,10 +42,10 @@ public class TeamController {
     public ResponseEntity<?> fetchTeam(@PathVariable("groupId") Long groupId){
         try {
             TeamTotalInfo teamTotalInfo = teamService.findTeam(groupId);
-            ResponseDto<TeamTotalInfo> response = new ResponseDto<>("success",teamTotalInfo);
+            ResponseDto<TeamTotalInfo> response = new ResponseDto<>(ResponseStatus.SUCCESS,teamTotalInfo);
             return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
         }catch ( Exception e){
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -54,11 +55,11 @@ public class TeamController {
     public ResponseEntity<?> createTeam(@RequestBody CreateTeamDto createTeamDto){
         try {
             List<TeamInfoDto> result = teamService.createTeam(createTeamDto);
-            ResponseDto<List> response = new ResponseDto<>("success", result);
+            ResponseDto<List> response = new ResponseDto<>(ResponseStatus.SUCCESS, result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 
         } catch (Exception e) {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -68,11 +69,11 @@ public class TeamController {
     public ResponseEntity<?> joinTeam(@RequestBody JoinTeamDto joinTeamDto) {
         try {
             List<TeamInfoDto> result = teamService.joinTeam(joinTeamDto);
-            ResponseDto<List> response = new ResponseDto<>("success", result);
+            ResponseDto<List> response = new ResponseDto<>(ResponseStatus.SUCCESS, result);
             return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 
         } catch (Exception e) {
-            ResponseDto<String> response = new ResponseDto<>("false", "no");
+            ResponseDto<String> response = new ResponseDto<>(ResponseStatus.FALSE, "no");
             return new ResponseEntity<ResponseDto>(response, HttpStatus.BAD_REQUEST);
         }
     }
