@@ -93,7 +93,7 @@ public class TeamService {
         for (MemberTeam memberTeam : memberTeamList) {
             Member member = memberTeam.getMember();
             String image = member.getImage()!=null ? member.getImage() : "";
-            MemberSummaryDto memberSummaryDto = new MemberSummaryDto(member.getId(),image, member.getName(), member.getJob());
+            MemberSummaryDto memberSummaryDto = new MemberSummaryDto(member.getId(),image, member.getName(), member.getJob(),member.getContent());
             memberSummaryList.add(memberSummaryDto);
 
         }
@@ -115,7 +115,7 @@ public class TeamService {
         for (MemberTeam memberTeam : memberTeamList) {
             Member member = memberTeam.getMember();
             String image = member.getImage()!=null ? member.getImage() : "";
-            MemberSummaryDto memberSummaryDto = new MemberSummaryDto(member.getId(), image, member.getName(), member.getJob());
+            MemberSummaryDto memberSummaryDto = new MemberSummaryDto(member.getId(), image, member.getName(), member.getJob(),member.getContent());
             memberSummaryList.add(memberSummaryDto);
         }
 

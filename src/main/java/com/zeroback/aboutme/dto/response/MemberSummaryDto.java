@@ -12,4 +12,5 @@ public class MemberSummaryDto {
     private String image;
     private String name;
     private String job;
+    private String content;
 }
