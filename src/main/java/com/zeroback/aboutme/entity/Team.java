@@ -25,11 +25,13 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<MemberTeam> memberTeam = new ArrayList<MemberTeam>();
 
+    private String password;
+
     public static Team create(CreateTeamDto createTeamDto) {
         Team team = new Team();
         team.setName(createTeamDto.getTeamName());
         team.setSummary(createTeamDto.getSummary());
-
+        team.setPassword(createTeamDto.getPassword());
         return team;
     }
 }

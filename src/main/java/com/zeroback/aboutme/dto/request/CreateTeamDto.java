@@ -16,4 +16,5 @@ public class CreateTeamDto {
     @JsonProperty("team_name")
     private String teamName;
     private String summary;
+    private String password;
 }

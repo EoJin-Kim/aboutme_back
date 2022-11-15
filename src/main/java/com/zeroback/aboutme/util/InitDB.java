@@ -58,10 +58,11 @@ public class InitDB {
                     "cooking",
                     "요리합시다!\n" +
                             "매주 수요일, 목요일 오후 8시\n" +
-                            "한식 요리의 정점을 배우고 가자!!"
+                            "한식 요리의 정점을 배우고 가자!!",
+                    "1234"
             );
-            CreateTeamDto running = new CreateTeamDto(1L, "running", "달립시다!");
-            CreateTeamDto developer = new CreateTeamDto(1L, "developer", "개발합시다!");
+            CreateTeamDto running = new CreateTeamDto(1L, "running", "달립시다!","1234");
+            CreateTeamDto developer = new CreateTeamDto(10L, "developer", "개발합시다!","1234");
 
             Team team1 = Team.create(cooking);
             Team team2 = Team.create(running);
@@ -76,7 +77,7 @@ public class InitDB {
             MemberTeam.create(member7,team1);
 
             MemberTeam.create(member,team2);
-//            MemberTeam.create(member,team3);
+            MemberTeam.create(member2,team3);
 
             em.persist(team1);
             em.persist(team2);
